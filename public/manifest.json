@@ -1,0 +1,47 @@
+{
+  "name": "TravelMateNE — North East Explorer",
+  "short_name": "TravelMateNE",
+  "description": "Explore the 8 Sister States of North East India offline with verified permit rules, Tata Sumo fares, and AI guidance.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F7F5F0",
+  "theme_color": "#12372A",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explore Circuits",
+      "url": "/explore",
+      "description": "Browse destinations across North East India"
+    },
+    {
+      "name": "Permit Eligibility Checker",
+      "url": "/permits/checker",
+      "description": "Check ILP and PAP requirements"
+    },
+    {
+      "name": "Transport & Shared Sumos",
+      "url": "/transport",
+      "description": "Find shared Sumo routes and fares"
+    },
+    {
+      "name": "My Offline Dashboard",
+      "url": "/dashboard",
+      "description": "View saved offline trips and checklists"
+    }
+  ]
+}

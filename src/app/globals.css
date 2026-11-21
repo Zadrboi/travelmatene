@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════
+   LIGHT MODE — :root
+   ═══════════════════════════════════════════════════ */
+:root {
+  --bg-canvas:      #F7F5F0;
+  --bg-canvas-alt:  #FAF8F5;
+  --bg-surface:     #FFFFFF;
+  --bg-editorial:   #EFECE4;
+  --brand-pine:     #12372A;
+  --text-ink:       #1B221F;
+  --text-muted:     #525E58;
+  --text-subtle:    #6F7A74;
+  --accent-terracotta: #E0531F;
+  --accent-rust:    #A85832;
+  --status-verified: #1E7E54;
+  --status-amber:   #D98218;
+  --status-danger:  #DC3545;
+  --border-hairline: rgba(20, 42, 33, 0.10);
+}
+
+/* ═══════════════════════════════════════════════════
+   DARK MODE — .dark
+   ═══════════════════════════════════════════════════ */
+.dark {
+  --bg-canvas:      #0D1512;
+  --bg-canvas-alt:  #111B18;
+  --bg-surface:     #14201C;
+  --bg-editorial:   #182621;
+  --brand-pine:     #1B3B2E;
+  --text-ink:       #F1F5F2;
+  --text-muted:     #A7B5AE;
+  --text-subtle:    #7E8F87;
+  --accent-terracotta: #F06A35;
+  --accent-rust:    #D9885B;
+  --status-verified: #34B37A;
+  --status-amber:   #E59834;
+  --status-danger:  #F05464;
+  --border-hairline: rgba(236, 242, 238, 0.10);
+}
+
+/* Ensure text-brand-pine flips to accessible high-contrast ink in dark mode */
+.dark .text-brand-pine {
+  color: var(--text-ink);
+}
+
+/* ═══════════════════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════════════════ */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bg-canvas text-text-ink font-sans;
+    overscroll-behavior: none;
+  }
+
+  /* scrollbar — thin on webkit */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border-hairline); border-radius: 9999px; }
+
+  /* Selection */
+  ::selection { background: #E0531F22; color: var(--text-ink); }
+
+  /* Focus ring — accent terracotta, skip-link reset */
+  :focus-visible {
+    outline: 2px solid var(--accent-terracotta);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   TYPOGRAPHY — Bodoni Moda optical-size fix
+   ═══════════════════════════════════════════════════ */
+.font-editorial,
+[class*="font-headline-lg"],
+[class*="font-display"] {
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 11;
+}
+
+/* ═══════════════════════════════════════════════════
+   COMPONENTS
+   ═══════════════════════════════════════════════════ */
+@layer components {
+  /* Navbar transparent → frosted transition */
+  .navbar-transparent { background-color: transparent; box-shadow: none; }
+  .navbar-frosted     { background-color: var(--bg-canvas); backdrop-filter: blur(24px); box-shadow: 0 1px 8px rgba(0,0,0,0.04); }
+
+  /* Place card FLIP target placeholder */
+  .flip-target { contain: layout; }
+
+  /* Clip-path wipe utility */
+  .clip-wipe-enter  { clip-path: inset(0 0 0 100%); }
+  .clip-wipe-done   { clip-path: inset(0 0 0 0); transition: clip-path 0.6s cubic-bezier(0.16,1,0.3,1); }
+
+  /* Accordion smooth height */
+  .accordion-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease; }
+  .accordion-body.open { grid-template-rows: 1fr; }
+  .accordion-body > div { overflow: hidden; }
+
+  /* Permit badge */
+  .badge-ilp      { background-color: rgba(217, 130, 24, 0.18); color: var(--status-amber); }
+  .badge-pap      { background-color: rgba(224, 83, 31, 0.15); color: var(--accent-terracotta); }
+  .badge-open     { background-color: rgba(30, 126, 84, 0.15); color: var(--status-verified); }
+  .badge-rap      { background-color: rgba(168, 88, 50, 0.18); color: var(--accent-rust); }
+
+  /* Crowd tag */
+  .crowd-low    { background-color: rgba(30, 126, 84, 0.12); color: var(--status-verified); }
+  .crowd-medium { background-color: rgba(217, 130, 24, 0.12); color: var(--status-amber); }
+  .crowd-high   { background-color: rgba(220, 53, 69, 0.12); color: var(--status-danger); }
+}
+
+/* ═══════════════════════════════════════════════════
+   MOTION — reduce / lite kill-switch
+   ═══════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* JS-driven lite mode: body[data-lite="true"] */
+body[data-lite="true"] *,
+body[data-lite="true"] *::before,
+body[data-lite="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 150ms !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   LEAFLET dark-mode tiles
+   ═══════════════════════════════════════════════════ */
+.dark .leaflet-tile { filter: invert(0.9) hue-rotate(180deg) brightness(0.85); }
+.dark .leaflet-container { background: #0D1512; }
+
+/* ═══════════════════════════════════════════════════
+   HERO — misty wipe layer
+   ═══════════════════════════════════════════════════ */
+.hero-mist-band {
+  position: absolute;
+  inset: 0;
+  width: 34vw;
+  pointer-events: none;
+  backdrop-filter: blur(32px) saturate(1.4);
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.18) 50%, transparent);
+  mix-blend-mode: screen;
+  transition: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   QUICK FACTS — split-character container
+   ═══════════════════════════════════════════════════ */
+.char-split-wrap {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.char-split-inner {
+  display: inline-block;
+  transform: translateY(0.55em) rotate(4deg);
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease;
+}
+.char-split-inner.visible {
+  transform: translateY(0) rotate(0deg);
+  opacity: 1;
+}
+
+/* SVG checkmark draw */
+.svg-check {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset 0.4s ease;
+  pathLength: 1;
+}
+.svg-check.drawn { stroke-dashoffset: 0; }
